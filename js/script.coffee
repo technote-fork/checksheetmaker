@@ -1,7 +1,7 @@
 Array.prototype.shuffle = ->
   i = this.length
   while(i)
-    j = Math.floor(Math.random()*i)
+    j = Math.floor(Math.random() * i)
     t = this[--i]
     this[i] = this[j]
     this[j] = t
@@ -40,7 +40,7 @@ $ ->
 setLangsToPreview = ->
   langs = []
   $('.langs label').each ->
-    lang =  $(this).text().replace(/^\s+/, '')
+    lang = $(this).text().replace(/^\s+/, '')
     str = "<li>
     <span class='fa-stack'>
       <i class='fa fa-square-o fa-stack-1x' />
@@ -52,7 +52,7 @@ setLangsToPreview = ->
 
 # プレビューを更新
 previewReload = ->
-  # 必要な値を修得
+# 必要な値を修得
   color = getColorValue()
   size = $('.size-select :checked')
   width = size.data('width')
@@ -63,23 +63,23 @@ previewReload = ->
   # 反映
   preview = $('#preview')
   preview.find('li').each ->
-    if $('.langs input[value="'+$(this).text().replace(/\s+/g, '')+'"]:checked').length
+    if $('.langs input[value="' + $(this).text().replace(/\s+/g, '') + '"]:checked').length
       $(this).find('.fa-stack').append("<i class='fa fa-check fa-stack-1x' />")
     else if $(this).find('.fa-check').length
       $(this).find('.fa-check').remove()
 
   preview.css({
-    backgroundColor: '#'+color.bg,
-    color: '#'+color.text,
+    backgroundColor: '#' + color.bg,
+    color: '#' + color.text,
     width: width,
     height: height,
     fontSize: fontsize
   })
   preview.find('.fa-stack').css({
-    height: lineheight+'em',
-    lineHeight: lineheight+'em'
+    height: lineheight + 'em',
+    lineHeight: lineheight + 'em'
   })
-  preview.find('.fa-check').css('color', '#'+color.check)
+  preview.find('.fa-check').css('color', '#' + color.check)
 
   # スマホ向け overflow: hiddenが効かない問題解消
   $('#hider').css({
@@ -92,7 +92,7 @@ shuffleList = ->
   preview = $('#preview')
   langs = []
   preview.find('li').each ->
-    langs.push '<li>'+$(this).html()+'</li>'
+    langs.push '<li>' + $(this).html() + '</li>'
   langs.shuffle()
   preview.find('ul').html(langs.join(''))
 
@@ -121,14 +121,14 @@ rememberToLocalStorage = ->
   langs = []
   $('.langs :checked').each ->
     langs.push $(this).val()
-  localStorage['size'] = $('.size-select :checked').attr('id')
+  localStorage['size']  = $('.size-select :checked').attr('id')
   localStorage['langs'] = langs
   localStorage['color'] = JSON.stringify(getColorValue())
 
 # localStorageから各項目を設定
 setFormFromLocalStorage = ->
   if localStorage['size']
-    $('.size-select #'+localStorage['size']).attr('checked', true)
+    $('.size-select #' + localStorage['size']).attr('checked', true)
   if localStorage['langs']
     langs = localStorage['langs'].split(',').forEach (item) ->
       $(".langs input[value='#{item}']").attr("checked", true)
