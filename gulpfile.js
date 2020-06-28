@@ -1,34 +1,26 @@
-var gulp = require('gulp');
-var slim = require('gulp-slim');
-var sass = require('gulp-ruby-sass');
-var plumber = require('gulp-plumber');
-var prefixer = require('gulp-autoprefixer');
-var coffee = require('gulp-coffee');
+const gulp     = require('gulp');
+const sass     = require('gulp-sass');
+const plumber  = require('gulp-plumber');
+const prefixer = require('gulp-autoprefixer');
+const coffee   = require('gulp-coffee');
 
-gulp.task('slim', function(){
-  gulp.src('*.slim')
-    .pipe(plumber())
-    .pipe(slim())
-    .pipe(gulp.dest('.'));
-});
-
-gulp.task('sass', function(){
+gulp.task('sass', function(done) {
   gulp.src('css/*.sass')
     .pipe(plumber())
     .pipe(sass())
     .pipe(prefixer('last 2 version'))
     .pipe(gulp.dest('css'));
+  done();
 });
 
-gulp.task('coffee', function(){
+gulp.task('coffee', function(done) {
   gulp.src('js/*.coffee')
     .pipe(plumber())
     .pipe(coffee())
     .pipe(gulp.dest('js'));
+  done();
 });
 
-gulp.task('default', ['slim', 'sass', 'coffee'], function(){
-  gulp.watch('*.slim', ['slim']);
-  gulp.watch('css/*.sass', ['sass']);
-  gulp.watch('js/*.coffee', ['coffee']);
-});
+gulp.task('default', gulp.series(gulp.parallel('sass', 'coffee'), function(done) {
+  done();
+}));
